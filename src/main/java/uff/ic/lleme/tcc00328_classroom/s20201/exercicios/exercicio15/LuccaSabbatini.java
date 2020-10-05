@@ -17,11 +17,11 @@ public class LuccaSabbatini {
 
         System.out.println("Números:");
         System.out.print(Arrays.toString(numeros));
-        System.out.println("Categorias:");
+        System.out.println("\nCategorias:");
         System.out.println(Arrays.toString(categs));
         System.out.println("Histograma:");
         System.out.println(Arrays.toString(histograma(numeros, categs)));
-        System.out.println("OBS: Posição de índice 0 no histograma representa "
+        System.out.println("OBS: A última posição no histograma representa "
                 + "números fora de qualquer categoria");
     }
     
@@ -42,25 +42,22 @@ public class LuccaSabbatini {
         histograma = new float [categorias.length];
         int outsideCategs = 0;
         
-        for (int i = 1; i < histograma.length; i++) {
+        for (int i = 0; i < histograma.length - 1; i++) {
             int res = 0;
             
             for (int j = 0; j < numeros.length; j++) {
                 if (categoria(numeros[i], categorias) == i) {
                     res++;
+                } else if (categoria(numeros[i], categorias) == -1) {
+                    outsideCategs++;
                 }
             }
             
-            histograma[i] = res / numeros.length;
+            histograma[i] = (float)res / (float)numeros.length;
         }
         
-        for (int i = 0; i < numeros.length; i++) {
-            if (categoria(numeros[i], categorias) == -1) {
-                outsideCategs++;
-            }
-        }
-        
-        histograma[0] = outsideCategs / numeros.length;
+        outsideCategs /= histograma.length - 1;
+        histograma[0] = (float)outsideCategs / (float)numeros.length;
         
         return histograma;
     }
